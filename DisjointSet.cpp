@@ -2,15 +2,15 @@
 using namespace std;
 
 int vertices, edge, parent[100], rankk[100];
-// Rank indicates depth of the tree
+// Rank indicates the depth of given tree
 
 
 void makeSet()
 {
     for(int i = 0; i<vertices; i++)
     {
-        parent[i] = i; // nijei nijer parent
-        rankk[i] = 0;
+        parent[i] = i; // setting parent to itself
+        rankk[i] = 0; // initiating rank for union purpose 
     }
 }
 
@@ -33,15 +33,18 @@ int union_sets(int a, int b)
     // Not in the same set
     // Union by rank
 
-    if(rankk[u] > rankk[v]) // r2 becomes a child of r1
-    {
+    if(rankk[u] > rankk[v]) // u becomes a child of v
         parent[v] = u;
-    }
-    else
-    {
+        
+    else if(rankk[u] < rankk[v])
         parent[u] = v;
-        if(rankk[u] == rankk[v])  rankk[v]++;
+        
+    else if(rankk[u] == rankk[v])
+    {
+        parent[u] = v; // we can set parent[v] = u as well
+        rankk[v]++; // if we set parent[v] = u, rankk[u]++
     }
+
     return 1;
 }
 
